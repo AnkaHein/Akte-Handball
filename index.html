@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Akte Handball</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#5B3420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Akte Handball">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Startseite -->
+<main id="view-start" class="view active" aria-label="Startseite">
+  <div class="start-bg"></div>
+  <div class="start-inner">
+    <div class="stamp">STRENG GEHEIM</div>
+    <h1 class="title">Akte Handball</h1>
+    <p class="subtitle">Detektiv Ben ermittelt</p>
+    <button class="btn btn-big" id="btn-start">Fall starten</button>
+    <button class="btn-speak" id="speak-start" aria-label="Vorlesen">🔊</button>
+  </div>
+</main>
+
+<!-- Akte -->
+<main id="view-akte" class="view" aria-label="Akte">
+  <header class="akte-head">
+    <button class="btn-back" id="back-akte" aria-label="Zurück">←</button>
+    <div class="akte-title">
+      <span class="akte-label">Akte Handball · Fall Nr. 1</span>
+      <h2>Wähle einen Auftrag</h2>
+    </div>
+    <button class="btn-speak" id="speak-akte" aria-label="Vorlesen">🔊</button>
+  </header>
+
+  <div class="tiles">
+    <button class="tile" data-fach="deutsch">
+      <img src="img/kachel-deutsch.jpg" alt="">
+      <span class="tile-name">Deutsch</span>
+      <span class="stars" data-stars="deutsch"></span>
+    </button>
+    <button class="tile" data-fach="englisch">
+      <img src="img/kachel-englisch.jpg" alt="">
+      <span class="tile-name">Englisch</span>
+      <span class="stars" data-stars="englisch"></span>
+    </button>
+    <button class="tile" data-fach="mathe">
+      <img src="img/kachel-mathe.jpg" alt="">
+      <span class="tile-name">Mathe</span>
+      <span class="stars" data-stars="mathe"></span>
+    </button>
+  </div>
+</main>
+
+<!-- Fach (Platzhalter bis zur nächsten Etappe) -->
+<main id="view-fach" class="view" aria-label="Fach">
+  <header class="akte-head">
+    <button class="btn-back" id="back-fach" aria-label="Zurück">←</button>
+    <div class="akte-title">
+      <span class="akte-label">Akte Handball · Fall Nr. 1</span>
+      <h2 id="fach-title">Fach</h2>
+    </div>
+  </header>
+  <div class="fach-body">
+    <p class="soon">Dieser Auftrag kommt bald. 🕵️</p>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

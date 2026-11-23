@@ -1,0 +1,210 @@
+:root {
+  --braun: #5B3420;
+  --braun-dunkel: #3A2012;
+  --braun-hell: #8A5A3A;
+  --creme: #F6EBD9;
+  --papier: #FBF4E6;
+  --gelb: #F4C20D;
+  --blau: #1F5AA6;
+  --radius: 28px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Avenir Next", "Helvetica Neue", system-ui, sans-serif;
+  background: var(--braun-dunkel);
+  color: var(--braun-dunkel);
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.view {
+  display: none;
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.view.active { display: block; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: inherit;
+  font-weight: 800;
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  background: var(--gelb);
+  color: var(--braun-dunkel);
+  box-shadow: 0 6px 0 #B58F06, 0 12px 24px rgba(0,0,0,.35);
+  transition: transform .08s, box-shadow .08s;
+}
+.btn:active { transform: translateY(5px); box-shadow: 0 1px 0 #B58F06, 0 4px 10px rgba(0,0,0,.3); }
+.btn-big { font-size: clamp(26px, 4.5vw, 40px); padding: 24px 64px; min-height: 84px; }
+
+.btn-back, .btn-speak {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  font-size: 36px;
+  font-weight: 800;
+  background: var(--braun);
+  color: var(--creme);
+  box-shadow: 0 4px 0 var(--braun-dunkel);
+  flex: none;
+}
+.btn-back:active, .btn-speak:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--braun-dunkel); }
+
+/* ---------- Startseite ---------- */
+#view-start { background: var(--braun-dunkel); }
+.start-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(40,22,12,.35), rgba(40,22,12,.15) 45%, rgba(40,22,12,.45)),
+    url("img/hintergrund.jpg") 70% 100% / cover no-repeat;
+}
+.start-inner {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px 24px 120px;
+  text-align: center;
+}
+.stamp {
+  border: 4px solid #D0452B;
+  color: #D0452B;
+  background: rgba(251,244,230,.9);
+  font-weight: 900;
+  letter-spacing: .18em;
+  padding: 6px 20px;
+  border-radius: 8px;
+  transform: rotate(-4deg);
+  font-size: clamp(16px, 2.4vw, 24px);
+}
+.title {
+  margin: 0;
+  font-size: clamp(54px, 11vw, 132px);
+  line-height: 1;
+  font-weight: 900;
+  color: var(--creme);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  text-shadow: 0 4px 0 var(--braun-dunkel), 0 10px 30px rgba(0,0,0,.6);
+}
+.subtitle {
+  margin: 0 0 18px;
+  font-size: clamp(24px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--gelb);
+  text-shadow: 0 3px 12px rgba(0,0,0,.7);
+}
+#speak-start {
+  position: absolute;
+  top: calc(18px + env(safe-area-inset-top));
+  right: 18px;
+}
+
+/* ---------- Akte ---------- */
+#view-akte, #view-fach {
+  background:
+    radial-gradient(circle at 20% 0%, #7A4A30 0%, transparent 55%),
+    var(--braun);
+}
+.akte-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px 8px;
+}
+.akte-head .btn-back, .akte-head .btn-speak {
+  background: var(--creme);
+  color: var(--braun);
+  box-shadow: 0 4px 0 rgba(0,0,0,.35);
+}
+.akte-title { flex: 1; min-width: 0; }
+.akte-label {
+  display: block;
+  color: var(--gelb);
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: clamp(13px, 1.8vw, 18px);
+}
+.akte-title h2 {
+  margin: 4px 0 0;
+  color: var(--creme);
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1.1;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  padding: 18px 24px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.tile {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--papier);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 0 rgba(0,0,0,.35), 0 18px 30px rgba(0,0,0,.35);
+  transition: transform .08s, box-shadow .08s;
+}
+.tile:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+.tile img {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 18px;
+  background: #fff;
+}
+.tile-name {
+  font-size: clamp(32px, 4.2vw, 48px);
+  font-weight: 900;
+  color: var(--braun);
+}
+.stars {
+  font-size: clamp(28px, 3.6vw, 40px);
+  letter-spacing: .12em;
+  color: var(--gelb);
+  text-shadow: 0 1px 0 #B58F06;
+  min-height: 1.2em;
+}
+
+/* ---------- Fach-Platzhalter ---------- */
+.fach-body { padding: 40px 24px; text-align: center; }
+.soon {
+  color: var(--creme);
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 800;
+}
+
+@media (min-width: 640px) {
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .btn-back, .btn-speak { width: 64px; height: 64px; font-size: 30px; }
+}
