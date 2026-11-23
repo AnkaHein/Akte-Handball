@@ -1,12 +1,13 @@
 "use strict";
 
 // Bei jeder neuen Version die Nummer erhöhen, damit das iPad die neuen Dateien holt.
-const VERSION = "akte-handball-0.1.0";
+const VERSION = "akte-handball-0.2.0";
 const DATEIEN = [
   "./",
   "index.html",
   "style.css",
   "app.js",
+  "mathe.js",
   "manifest.webmanifest",
   "icons/icon-180.png",
   "icons/icon-192.png",

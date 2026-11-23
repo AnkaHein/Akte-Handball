@@ -57,7 +57,7 @@
   </div>
 </main>
 
-<!-- Fach (Platzhalter bis zur nächsten Etappe) -->
+<!-- Fach: Liste der Aufträge -->
 <main id="view-fach" class="view" aria-label="Fach">
   <header class="akte-head">
     <button class="btn-back" id="back-fach" aria-label="Zurück">←</button>
@@ -65,12 +65,17 @@
       <span class="akte-label">Akte Handball · Fall Nr. 1</span>
       <h2 id="fach-title">Fach</h2>
     </div>
+    <button class="btn-speak" id="speak-fach" aria-label="Vorlesen">🔊</button>
   </header>
-  <div class="fach-body">
-    <p class="soon">Dieser Auftrag kommt bald. 🕵️</p>
-  </div>
+  <div class="auftrag-liste" id="auftrag-liste"></div>
+</main>
+
+<!-- Aufgabe -->
+<main id="view-aufgabe" class="view" aria-label="Aufgabe">
+  <div id="aufgabe-root"></div>
 </main>
 
 <script src="app.js"></script>
+<script src="mathe.js"></script>
 </body>
 </html>

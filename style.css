@@ -117,7 +117,7 @@ html, body {
 }
 
 /* ---------- Akte ---------- */
-#view-akte, #view-fach {
+#view-akte, #view-fach, #view-aufgabe {
   background:
     radial-gradient(circle at 20% 0%, #7A4A30 0%, transparent 55%),
     var(--braun);
@@ -193,13 +193,187 @@ html, body {
   min-height: 1.2em;
 }
 
-/* ---------- Fach-Platzhalter ---------- */
-.fach-body { padding: 40px 24px; text-align: center; }
+/* ---------- Fach: Auftragsliste ---------- */
 .soon {
   color: var(--creme);
   font-size: clamp(30px, 5vw, 52px);
   font-weight: 800;
+  text-align: center;
+  padding: 40px 0;
 }
+.auftrag-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 18px 24px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.auftrag {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--papier);
+  color: var(--braun);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 26px;
+  min-height: 120px;
+  text-align: left;
+  box-shadow: 0 8px 0 rgba(0,0,0,.35), 0 18px 30px rgba(0,0,0,.3);
+  touch-action: manipulation;
+}
+.auftrag:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+.auftrag-nr {
+  flex: none;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--braun);
+  color: var(--creme);
+  font-weight: 900;
+  font-size: 32px;
+  display: grid;
+  place-items: center;
+}
+.auftrag-icon { font-size: 56px; flex: none; }
+.auftrag-text { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.auftrag-text b { font-size: clamp(28px, 4vw, 40px); }
+.auftrag-text small { font-size: clamp(18px, 2.4vw, 24px); color: var(--braun-hell); font-weight: 700; }
+.auftrag-stern { font-size: 56px; color: var(--gelb); text-shadow: 0 1px 0 #B58F06; }
+.auftrag.erledigt { background: #FFF3C4; }
+
+/* ---------- Mathe-Aufgabe ---------- */
+.punkte { display: flex; justify-content: center; gap: 14px; padding: 6px 0 2px; }
+.punkt {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 3px solid var(--creme);
+  opacity: .8;
+}
+.punkt.ok { background: var(--gelb); border-color: var(--gelb); opacity: 1; }
+.punkt.jetzt { background: var(--creme); opacity: 1; transform: scale(1.2); }
+
+.aufgabe-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  padding: 14px 24px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+@media (min-width: 900px) and (orientation: landscape) {
+  .aufgabe-layout { grid-template-columns: 1fr 1fr; align-items: center; }
+}
+
+.zettel {
+  --zelle: clamp(70px, 12vw, 112px);
+  background: var(--papier);
+  border-radius: var(--radius);
+  padding: 22px 26px 26px;
+  box-shadow: 0 8px 0 rgba(0,0,0,.35), 0 18px 30px rgba(0,0,0,.3);
+  width: fit-content;
+  margin: 0 auto;
+}
+.stellen, .zeile {
+  display: grid;
+  grid-template-columns: calc(var(--zelle) * .6) repeat(3, var(--zelle));
+  align-items: center;
+}
+.stellen span {
+  text-align: center;
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--braun-hell);
+}
+.zeile .op {
+  font-size: calc(var(--zelle) * .6);
+  font-weight: 800;
+  color: var(--braun);
+  text-align: center;
+}
+.zelle {
+  height: var(--zelle);
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--zelle) * .78);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--braun-dunkel);
+  border-radius: 14px;
+}
+.zelle.hl { background: #FFE58A; }
+.strich { height: 6px; background: var(--braun); border-radius: 3px; margin: 6px 0 12px; }
+.box {
+  font: inherit;
+  height: var(--zelle);
+  margin: 0 5px;
+  border-radius: 16px;
+  border: 4px dashed var(--braun-hell);
+  background: #fff;
+  font-size: calc(var(--zelle) * .78);
+  font-weight: 800;
+  color: var(--braun-dunkel);
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+}
+.box.aktiv { border-style: solid; border-color: var(--gelb); box-shadow: 0 0 0 5px rgba(244,194,13,.45); }
+.box.richtig { background: #CDEBC8; border: 4px solid #3E8E41; }
+.box.loesung { background: #FFF3C4; border: 4px solid var(--gelb); }
+
+.eingabe { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.meldung {
+  min-height: 64px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 800;
+  color: var(--creme);
+  padding: 4px 12px;
+}
+.meldung.gut { color: #BDF0B2; }
+.meldung.tipp { color: var(--gelb); }
+.tastatur {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: min(100%, 460px);
+}
+.tastatur[hidden], .btn-weiter[hidden] { display: none; }
+.taste {
+  font: inherit;
+  font-size: 44px;
+  font-weight: 800;
+  height: 92px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--creme);
+  color: var(--braun);
+  box-shadow: 0 6px 0 rgba(0,0,0,.35);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.taste:active { transform: translateY(5px); box-shadow: 0 1px 0 rgba(0,0,0,.35); }
+.taste-loeschen { background: #E3CDAE; }
+.taste-ok { background: var(--gelb); }
+.btn-weiter { font-size: 38px; padding: 22px 70px; min-height: 92px; margin-top: 8px; }
+
+.wackeln { animation: wackeln .4s; }
+@keyframes wackeln {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-12px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(6px); }
+}
+
+.fertig { text-align: center; padding: 90px 24px; color: var(--creme); }
+.fertig-stern { font-size: 140px; }
+.fertig h2 { font-size: clamp(38px, 6vw, 64px); margin: 10px 0; }
+.fertig p { font-size: clamp(26px, 4vw, 40px); color: var(--gelb); font-weight: 800; margin: 0 0 36px; }
 
 @media (min-width: 640px) {
   .tiles { grid-template-columns: repeat(3, 1fr); }

@@ -4,12 +4,18 @@
 const KEY = "akteHandball.v1";
 const FAECHER = { deutsch: "Deutsch", englisch: "Englisch", mathe: "Mathe" };
 
+// Jedes Fach-Modul (z. B. mathe.js) trägt hier seine Aufträge ein.
+window.AUFTRAEGE = { deutsch: [], englisch: [], mathe: [] };
+
 function ladeFortschritt() {
   try {
     const roh = localStorage.getItem(KEY);
-    if (roh) return JSON.parse(roh);
+    if (roh) {
+      const p = JSON.parse(roh);
+      return { erledigt: p.erledigt || {} };
+    }
   } catch (e) { /* Speicher nicht verfügbar */ }
-  return { sterne: { deutsch: 0, englisch: 0, mathe: 0 } };
+  return { erledigt: {} };
 }
 let fortschritt = ladeFortschritt();
 
@@ -48,14 +54,70 @@ function zeige(id) {
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 }
 
+function anzahlAuftraege(fach) {
+  const n = window.AUFTRAEGE[fach].length;
+  return n > 0 ? n : 3;
+}
+function anzahlErledigt(fach) {
+  return window.AUFTRAEGE[fach].filter(a => fortschritt.erledigt[a.id]).length;
+}
+function sterneText(fach) {
+  const gesamt = anzahlAuftraege(fach);
+  const n = anzahlErledigt(fach);
+  return "★".repeat(n) + "☆".repeat(Math.max(0, gesamt - n));
+}
+
 function zeichneSterne() {
   document.querySelectorAll("[data-stars]").forEach(el => {
-    const fach = el.dataset.stars;
-    const n = Math.max(0, Math.min(3, (fortschritt.sterne && fortschritt.sterne[fach]) || 0));
-    el.textContent = "★".repeat(n) + "☆".repeat(3 - n);
+    el.textContent = sterneText(el.dataset.stars);
   });
 }
 
+/* ---------- Fach-Seite mit Aufträgen ---------- */
+let aktuellesFach = null;
+
+function zeigeFach(fach) {
+  aktuellesFach = fach;
+  document.getElementById("fach-title").textContent = FAECHER[fach];
+  const liste = document.getElementById("auftrag-liste");
+  liste.innerHTML = "";
+  const auftraege = window.AUFTRAEGE[fach];
+
+  if (!auftraege.length) {
+    const p = document.createElement("p");
+    p.className = "soon";
+    p.textContent = "Dieser Auftrag kommt bald. 🕵️";
+    liste.appendChild(p);
+  } else {
+    auftraege.forEach((a, i) => {
+      const b = document.createElement("button");
+      b.className = "auftrag" + (fortschritt.erledigt[a.id] ? " erledigt" : "");
+      b.innerHTML =
+        '<span class="auftrag-nr">' + (i + 1) + '</span>' +
+        '<span class="auftrag-icon">' + a.icon + '</span>' +
+        '<span class="auftrag-text"><b>' + a.titel + '</b><small>' + a.untertitel + '</small></span>' +
+        '<span class="auftrag-stern">' + (fortschritt.erledigt[a.id] ? "★" : "☆") + '</span>';
+      b.addEventListener("click", () => a.start());
+      liste.appendChild(b);
+    });
+  }
+  zeige("view-fach");
+}
+
+/* ---------- Schnittstelle für die Fach-Module ---------- */
+window.App = {
+  zeige,
+  sprich,
+  zeigeFach,
+  aktuellesFach: () => aktuellesFach,
+  istErledigt: id => !!fortschritt.erledigt[id],
+  markiereErledigt(id) {
+    fortschritt.erledigt[id] = true;
+    speichereFortschritt();
+  }
+};
+
+/* ---------- Bedienung ---------- */
 document.getElementById("btn-start").addEventListener("click", () => {
   zeichneSterne();
   zeige("view-akte");
@@ -70,15 +132,14 @@ document.getElementById("speak-akte").addEventListener("click", () => {
 });
 
 document.querySelectorAll(".tile").forEach(t => {
-  t.addEventListener("click", () => {
-    const fach = t.dataset.fach;
-    document.getElementById("fach-title").textContent = FAECHER[fach];
-    zeige("view-fach");
-  });
+  t.addEventListener("click", () => zeigeFach(t.dataset.fach));
 });
 document.getElementById("back-fach").addEventListener("click", () => {
   zeichneSterne();
   zeige("view-akte");
+});
+document.getElementById("speak-fach").addEventListener("click", () => {
+  sprich(window.AUFTRAEGE[aktuellesFach].length ? "Wähle einen Auftrag." : "Dieser Auftrag kommt bald.");
 });
 
 zeichneSterne();
